@@ -4,6 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { MapDisplayComponent } from './components/map-display/map-display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatToolbar} from "@angular/material/toolbar";
+import {PlaceAutocompleteComponent} from "./components/place-autocomplete/place-autocomplete.component";
+import {GoogleMap, MapDirectionsRenderer, MapMarker} from "@angular/google-maps";
+import {PlaceCardComponent} from "./components/place-card/place-card.component";
 
 @NgModule({
   declarations: [
@@ -12,7 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbar,
+    PlaceAutocompleteComponent,
+    GoogleMap,
+    MapDirectionsRenderer,
+    MapMarker,
+    PlaceCardComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
