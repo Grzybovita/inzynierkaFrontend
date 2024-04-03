@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -18,10 +28,13 @@ export interface PlaceSearchResult {
   templateUrl: './place-autocomplete.component.html',
   styleUrl: './place-autocomplete.component.css'
 })
-export class PlaceAutocompleteComponent implements OnInit
+export class PlaceAutocompleteComponent implements AfterViewInit
 {
   @ViewChild('inputField')
   inputField!: ElementRef;
+
+  @Input()
+  place: PlaceSearchResult | undefined;
 
   @Input()
   placeholder = 'enter address';
@@ -31,15 +44,16 @@ export class PlaceAutocompleteComponent implements OnInit
 
   autocomplete: google.maps.places.Autocomplete | undefined;
 
-  listener: any;
-
-  constructor(private ngZone: NgZone) {
+  constructor(private ngZone: NgZone)
+  {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void
+  {
+    this.initAutocomplete();
   }
 
-  ngAfterViewInit()
+  initAutocomplete()
   {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputField.nativeElement);
     this.autocomplete.addListener('place_changed', () => {
@@ -54,7 +68,7 @@ export class PlaceAutocompleteComponent implements OnInit
       };
       console.log(result);
       this.placeChanged.emit(result);
-    })
+    });
   }
 
   getPhotoUrl(place: google.maps.places.PlaceResult | undefined): string | undefined
@@ -62,6 +76,11 @@ export class PlaceAutocompleteComponent implements OnInit
     return place?.photos && place?.photos.length > 0
       ? place?.photos[0].getUrl({ maxWidth: 500 })
       : undefined;
+  }
+
+  getValue(place: PlaceSearchResult | undefined)
+  {
+    return place ? place.address : null;
   }
 
   ngOnDestroy()

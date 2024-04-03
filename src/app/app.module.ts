@@ -8,22 +8,24 @@ import {MatToolbar} from "@angular/material/toolbar";
 import {PlaceAutocompleteComponent} from "./components/place-autocomplete/place-autocomplete.component";
 import {GoogleMap, MapDirectionsRenderer, MapMarker} from "@angular/google-maps";
 import {PlaceCardComponent} from "./components/place-card/place-card.component";
+import {MatButton} from "@angular/material/button";
 
 @NgModule({
   declarations: [
     AppComponent,
     MapDisplayComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatToolbar,
-    PlaceAutocompleteComponent,
-    GoogleMap,
-    MapDirectionsRenderer,
-    MapMarker,
-    PlaceCardComponent
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatToolbar,
+        PlaceAutocompleteComponent,
+        GoogleMap,
+        MapDirectionsRenderer,
+        MapMarker,
+        PlaceCardComponent,
+        MatButton,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

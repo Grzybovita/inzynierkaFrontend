@@ -3,9 +3,9 @@
     *ngIf="directionsResult$ | async as directionResults"
     [directions]="directionResults"
   ></map-directions-renderer>
+
   <map-marker
     *ngFor="let markerPosition of markerPositions"
     [position]="markerPosition"
-  >
-  </map-marker>
+  ></map-marker>
 </google-map>
