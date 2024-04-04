@@ -9,6 +9,7 @@ import {PlaceAutocompleteComponent} from "./components/place-autocomplete/place-
 import {GoogleMap, MapDirectionsRenderer, MapMarker} from "@angular/google-maps";
 import {PlaceCardComponent} from "./components/place-card/place-card.component";
 import {MatButton} from "@angular/material/button";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {MatButton} from "@angular/material/button";
         MapMarker,
         PlaceCardComponent,
         MatButton,
+        HttpClientModule
     ],
   providers: [],
   bootstrap: [AppComponent]

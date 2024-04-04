@@ -24,7 +24,6 @@ export class AppComponent {
 
   onPlaceChanged(place: PlaceSearchResult, index: number)
   {
-    console.log('Place changed:', place);
     this.places = [...this.places.slice(0, index), place, ...this.places.slice(index + 1)];
     this.refreshView();
   }
@@ -33,5 +32,6 @@ export class AppComponent {
   {
     this.cdr.detectChanges(); // Manually trigger change detection
   }
+
 
 }

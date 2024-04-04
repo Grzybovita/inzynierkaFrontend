@@ -66,7 +66,6 @@ export class PlaceAutocompleteComponent implements AfterViewInit
         imageUrl: this.getPhotoUrl(place),
         iconUrl: place?.icon,
       };
-      console.log(result);
       this.placeChanged.emit(result);
     });
   }
