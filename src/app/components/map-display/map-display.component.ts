@@ -1,12 +1,21 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {GoogleMap, MapDirectionsService} from "@angular/google-maps";
+import {GoogleMap, MapDirectionsRenderer, MapDirectionsService, MapMarker} from "@angular/google-maps";
 import {PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {BehaviorSubject, map} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {CommonModule, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-map-display',
+  standalone: true,
   templateUrl: './map-display.component.html',
+  imports: [
+    GoogleMap,
+    MapDirectionsRenderer,
+    MapMarker,
+    NgIf,
+    NgForOf,
+    CommonModule
+  ],
   styleUrls: ['./map-display.component.css']
 })
 export class MapDisplayComponent implements OnInit, OnChanges
@@ -25,10 +34,7 @@ export class MapDisplayComponent implements OnInit, OnChanges
     google.maps.DirectionsResult | undefined
   >(undefined);
 
-  distanceMatrixService = new google.maps.DistanceMatrixService;
-
-  constructor(private directionsService: MapDirectionsService,
-              private http: HttpClient) {}
+  constructor(private directionsService: MapDirectionsService) {}
 
   ngOnInit(): void
   {
@@ -43,29 +49,19 @@ export class MapDisplayComponent implements OnInit, OnChanges
     }
   }
 
-  calculateRoute()
+  async calculateRoute()
   {
     const fromLocation = this.places[0]?.location;
     const toLocation = this.places[this.places.length - 1]?.location;
     const waypoints = this.places.slice(1, -1).map(place => place.location);
 
-    if (fromLocation && toLocation && waypoints)
+    if (fromLocation && toLocation)
     {
-      const addresses = this.places.map(place => place.address);
-
-      const resultMatrix = this.getDistanceMatrix(addresses);
-      const requestBody = JSON.stringify(resultMatrix);
-
-        this.http.post('http://localhost:8080/optimizePath', requestBody, { headers: { 'Content-Type': 'application/json'} })
-          .subscribe((response) => {
-            console.log(response);
-          });
-
       const request: google.maps.DirectionsRequest = {
         destination: toLocation,
         origin: fromLocation,
         waypoints: waypoints.map(waypoint => ({location: waypoint, stopover: true})),
-       /* optimizeWaypoints: true,*/
+        /* optimizeWaypoints: true,*/
         travelMode: google.maps.TravelMode.DRIVING,
       };
 
@@ -81,7 +77,6 @@ export class MapDisplayComponent implements OnInit, OnChanges
     {
       this.gotoLocation(fromLocation);
     }
-
   }
 
   gotoLocation(location: google.maps.LatLng)
@@ -90,35 +85,6 @@ export class MapDisplayComponent implements OnInit, OnChanges
     this.map.panTo(location);
     this.zoom = 10;
     this.directionsResult$.next(undefined);
-  }
-
-  public getDistanceMatrix(addresses: string[]) : number[][]
-  {
-    const resultMatrix: number[][] = [];
-
-    const request = {
-      origins: addresses,
-      destinations: addresses,
-      travelMode: google.maps.TravelMode.DRIVING,
-      unitSystem: google.maps.UnitSystem.METRIC,
-      avoidHighways: false,
-      avoidTolls: false,
-    };
-    this.distanceMatrixService.getDistanceMatrix(request).then((response) => {
-
-      for (let i = 0; i < response.rows.length; i++)
-      {
-        resultMatrix[i] = [];
-        for (let j = 0; j < response.rows.length; j++)
-        {
-          resultMatrix[i][j] = response.rows[i].elements[j].distance.value;
-        }
-      }
-      console.log(resultMatrix);
-      console.log(response);
-
-    })
-    return resultMatrix;
   }
 
 }

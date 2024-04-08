@@ -1,5 +1,4 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import { PlaceSearchResult } from "./components/place-autocomplete/place-autocomplete.component";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,31 +6,9 @@ import { PlaceSearchResult } from "./components/place-autocomplete/place-autocom
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title = 'inzynierkaFrontend';
-  places: PlaceSearchResult[] = [{ address: '' }, { address: '' }];
 
-  constructor(private cdr: ChangeDetectorRef) {}
-  addPlaceAutocomplete()
-  {
-    this.places.push({ address: '' });
-  }
-
-  removeLastPlaceAutocomplete()
-  {
-    this.places = this.places.slice(0, -1);
-    this.refreshView();
-  }
-
-  onPlaceChanged(place: PlaceSearchResult, index: number)
-  {
-    this.places = [...this.places.slice(0, index), place, ...this.places.slice(index + 1)];
-    this.refreshView();
-  }
-
-  refreshView()
-  {
-    this.cdr.detectChanges(); // Manually trigger change detection
-  }
-
+  constructor() {}
 
 }

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="input-area">
+    <h2>Travel destinations:</h2>
+    <ng-container *ngFor="let place of places; let i = index">
+      <app-place-autocomplete
+        (placeChanged)="onPlaceChanged($event, i)"
+        [place]="places[i]"
+        [placeholder]="'Enter address ' + (i + 1) + '...'"
+      ></app-place-autocomplete>
+    </ng-container>
+
+    <button mat-raised-button color="primary" (click)="addPlaceAutocomplete()">+</button>
+    <button mat-raised-button color="warn" (click)="removeLastPlaceAutocomplete()" [disabled]="places.length <= 2">-</button>
+    <button mat-raised-button color="primary" (click)="optimizeRoute()" [disabled]="places.length <= 2">optimize</button>
+  </div>
+  <div class="display-area">
+    <div>
+      <app-place-card *ngFor="let place of places" [data]="place"></app-place-card>
+    </div>
+    <app-map-display [places]="places"></app-map-display>
+  </div>
+</div>
