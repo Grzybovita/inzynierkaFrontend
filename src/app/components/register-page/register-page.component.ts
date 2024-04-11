@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -24,9 +24,12 @@ import {NgIf} from "@angular/common";
 export class RegisterPageComponent implements OnInit {
 
   registrationForm: FormGroup | undefined;
+  loginTaken: boolean = false;
+
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService) {}
+              private userService: UserService,
+              private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void
   {
@@ -37,7 +40,7 @@ export class RegisterPageComponent implements OnInit {
       repeatPassword: ['', Validators.required],
       phoneNumber: ['', Validators.required]
     }, {
-      validators: this.passwordMatchValidator // Apply custom validator to form group
+      validators: this.passwordMatchValidator
     });
   }
 
@@ -51,7 +54,14 @@ export class RegisterPageComponent implements OnInit {
         console.log('Registration successful:', response);
       })
       .catch(error => {
-
+        if (error.error === 'loginTaken')
+        {
+          registrationForm.get('login')?.setErrors({ loginTaken: true });
+        }
+        if (error.error === 'emailTaken')
+        {
+          registrationForm.get('email')?.setErrors({ emailTaken: true });
+        }
         console.error('Registration error:', error);
       });
   }

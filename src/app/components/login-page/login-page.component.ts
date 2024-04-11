@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
-import {MatFormField} from "@angular/material/form-field";
+import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {NgIf} from "@angular/common";
+import {UserService} from "../../services/UserService";
 
 @Component({
   selector: 'app-login-page',
@@ -12,23 +14,44 @@ import {MatInput} from "@angular/material/input";
         MatButton,
         MatFormField,
         MatInput,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatError,
+        NgIf
     ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
 
-  login: string | undefined;
-  password: string | undefined;
+  loginForm: FormGroup | undefined;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder,
+              private userService: UserService) { }
 
-  onSubmit()
+  ngOnInit(): void
   {
-    console.log('Form submitted');
-    console.log('Login:', this.login);
-    console.log('Password:', this.password);
+    this.loginForm = this.formBuilder.group({
+      login: ['', [Validators.required]],
+      password: ['', Validators.required]
+    });
+  }
+
+  onSubmit(loginForm: FormGroup)
+  {
+    this.loginForm = loginForm;
+
+    this.userService.loginUser(loginForm)
+      .then(response => {
+
+        console.log('Login successful:', response);
+      })
+      .catch(error => {
+        if (error.error === 'invalidCredentials')
+        {
+          loginForm.get('password')?.setErrors({ invalidCredentials: true });
+        }
+        console.error('Login error:', error);
+      });
 
   }
 
