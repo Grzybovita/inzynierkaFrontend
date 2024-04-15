@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
-import {UserService} from "../../services/UserService";
+import {UserService} from "../../services/user.service";
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -24,8 +24,9 @@ import {NgIf} from "@angular/common";
 export class RegisterPageComponent implements OnInit {
 
   registrationForm: FormGroup | undefined;
-  loginTaken: boolean = false;
-
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -35,10 +36,9 @@ export class RegisterPageComponent implements OnInit {
   {
     this.registrationForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      login: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
-      repeatPassword: ['', Validators.required],
-      phoneNumber: ['', Validators.required]
+      repeatPassword: ['', Validators.required]
     }, {
       validators: this.passwordMatchValidator
     });
@@ -48,22 +48,25 @@ export class RegisterPageComponent implements OnInit {
   {
     this.registrationForm = registrationForm;
 
-    this.userService.registerUser(registrationForm)
-      .then(response => {
-
-        console.log('Registration successful:', response);
-      })
-      .catch(error => {
-        if (error.error === 'loginTaken')
+    this.userService.registerUser(registrationForm).subscribe({
+      next: data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      error: err => {
+        this.errorMessage = err.error;
+        this.isSignUpFailed = true;
+        if (this.errorMessage === 'usernameTaken')
         {
-          registrationForm.get('login')?.setErrors({ loginTaken: true });
+          registrationForm.get('username')?.setErrors({ usernameTaken: true });
         }
-        if (error.error === 'emailTaken')
+        if (this.errorMessage === 'emailTaken')
         {
           registrationForm.get('email')?.setErrors({ emailTaken: true });
         }
-        console.error('Registration error:', error);
-      });
+      }
+    });
   }
 
   passwordMatchValidator(form: FormGroup)

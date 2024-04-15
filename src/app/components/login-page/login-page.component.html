@@ -2,8 +2,8 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
     <div class="form-group">
       <mat-form-field appearance="outline">
-        <input matInput formControlName="login" placeholder="Login">
-        <mat-error *ngIf="loginForm.get('login')?.errors?.['required']">Login is required</mat-error>
+        <input matInput formControlName="username" placeholder="Username">
+        <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</mat-error>
       </mat-form-field>
     </div>
     <div class="form-group">

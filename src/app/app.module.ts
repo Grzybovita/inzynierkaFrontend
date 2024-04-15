@@ -12,10 +12,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
 import { AppRoutingModule } from './app-routing.module';
 import {MapPageComponent} from "./components/map-page/map-page.component";
+import {TokenComponent} from "./components/token/token.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TokenComponent
   ],
   imports: [
     BrowserModule,

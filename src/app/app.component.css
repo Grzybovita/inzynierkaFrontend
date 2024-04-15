@@ -1,0 +1,16 @@
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* This ensures buttons are vertically centered */
+}
+
+.left-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.right-buttons {
+  display: flex;
+}
+
+

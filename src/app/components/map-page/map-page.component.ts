@@ -3,7 +3,7 @@ import {MatButton} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
 import {PlaceAutocompleteComponent, PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {PlaceCardComponent} from "../place-card/place-card.component";
-import {MapService} from "../../services/MapService";
+import {MapService} from "../../services/map.service";
 import {MapDisplayComponent} from "../map-display/map-display.component";
 
 @Component({

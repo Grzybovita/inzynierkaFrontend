@@ -4,7 +4,8 @@ import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
-import {UserService} from "../../services/UserService";
+import {UserService} from "../../services/user.service";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
   selector: 'app-login-page',
@@ -25,13 +26,19 @@ export class LoginPageComponent implements OnInit {
 
   loginForm: FormGroup | undefined;
 
+  isLoggedIn = false;
+  isLoginFailed = false;
+  errorMessage = '';
+  roles: string[] = [];
+
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService) { }
+              private userService: UserService,
+              private storageService: StorageService) { }
 
   ngOnInit(): void
   {
     this.loginForm = this.formBuilder.group({
-      login: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', Validators.required]
     });
   }
@@ -40,19 +47,27 @@ export class LoginPageComponent implements OnInit {
   {
     this.loginForm = loginForm;
 
-    this.userService.loginUser(loginForm)
-      .then(response => {
-
-        console.log('Login successful:', response);
-      })
-      .catch(error => {
-        if (error.error === 'invalidCredentials')
+    this.userService.loginUser(loginForm).subscribe({
+      next: data => {
+        this.storageService.saveUser(data);
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.roles = this.storageService.getUser().roles;
+        this.reloadPage();
+      },
+      error: err => {
+        this.errorMessage = err.error;
+        this.isLoginFailed = true;
+        if (this.errorMessage === 'invalidCredentials')
         {
           loginForm.get('password')?.setErrors({ invalidCredentials: true });
         }
-        console.error('Login error:', error);
-      });
+      }
+    });
+  }
 
+  reloadPage(): void {
+    window.location.reload();
   }
 
 }
