@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+const OPTIMIZE_PATH_API = 'http://localhost:8080/optimizePath';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +18,18 @@ export class MapService {
 
   public async optimizePath(addresses: string[]): Promise<any>
   {
-    const resultMatrix = await this.getDistanceMatrix(addresses);
+    // Remove empty strings or null values from addresses
+    const filteredAddresses = addresses.filter(address => address && address.trim() !== '');
+
+    if (filteredAddresses.length === 0)
+    {
+      throw new Error('No valid addresses provided.');
+    }
+
+    const resultMatrix = await this.getDistanceMatrix(filteredAddresses);
     const requestBody = JSON.stringify(resultMatrix);
 
-    return this.http.post('http://localhost:8080/optimizePath', requestBody, {
-      headers: { 'Content-Type': 'application/json' }
-    }).toPromise();
+    return this.http.post(OPTIMIZE_PATH_API, requestBody, httpOptions).toPromise();
   }
 
   public async getDistanceMatrix(addresses: string[]): Promise<number[][]>

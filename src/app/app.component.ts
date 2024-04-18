@@ -16,6 +16,8 @@ export class AppComponent {
 
   private roles: string[] = [];
   isLoggedIn = false;
+  isLoggedInSubscription?: Subscription;
+
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
@@ -30,18 +32,17 @@ export class AppComponent {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
-
-    if (this.isLoggedIn) {
-      const user = this.storageService.getUser();
-      this.roles = user.roles;
-
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
-
-      this.username = user.username;
-    }
+  ngOnInit(): void
+  {
+    this.isLoggedInSubscription = this.storageService.isLoggedInObservable().subscribe(isLoggedIn => {
+      this.isLoggedIn = this.storageService.isLoggedIn();
+      if (this.isLoggedIn)
+      {
+        const user = this.storageService.getUser();
+        this.roles = user.roles;
+        this.username = user.username;
+      }
+    });
 
     this.eventBusSub = this.eventBusService.on('logout', () => {
       this.logout();
@@ -53,9 +54,8 @@ export class AppComponent {
       next: res => {
         console.log(res);
         this.storageService.clean();
-
-        window.location.reload();
-        this.router.navigate(['/home']);
+        this.isLoggedIn = this.storageService.isLoggedIn();
+        this.router.navigate(['/login']);
       },
       error: err => {
         console.log(err);
@@ -75,6 +75,14 @@ export class AppComponent {
   hideConfirmationDialog()
   {
     this.showConfirmationDialog = false;
+  }
+
+  ngOnDestroy(): void
+  {
+    if (this.isLoggedInSubscription)
+    {
+      this.isLoggedInSubscription.unsubscribe();
+    }
   }
 
 }

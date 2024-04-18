@@ -1,10 +1,11 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
 import {PlaceAutocompleteComponent, PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {PlaceCardComponent} from "../place-card/place-card.component";
 import {MapService} from "../../services/map.service";
 import {MapDisplayComponent} from "../map-display/map-display.component";
+import {InputService} from "../../services/input.service";
 
 @Component({
   selector: 'app-map-page',
@@ -19,13 +20,22 @@ import {MapDisplayComponent} from "../map-display/map-display.component";
   templateUrl: './map-page.component.html',
   styleUrl: './map-page.component.css'
 })
-export class MapPageComponent {
+export class MapPageComponent implements OnInit {
 
   places: PlaceSearchResult[] = [{ address: '' }, { address: '' }];
 
-
   constructor(private cdr: ChangeDetectorRef,
-              private mapService: MapService) {
+              private mapService: MapService,
+              private inputService: InputService) {
+  }
+
+  ngOnInit(): void
+  {
+    this.inputService.inputCleared$.subscribe(clearedValueIndex  => {
+
+      let emptyPlace : PlaceSearchResult = { address: '' };
+      this.onPlaceChanged(emptyPlace, clearedValueIndex);
+    });
   }
 
   addPlaceAutocomplete()
@@ -76,4 +86,5 @@ export class MapPageComponent {
   {
     this.cdr.detectChanges(); // Manually trigger change detection
   }
+
 }

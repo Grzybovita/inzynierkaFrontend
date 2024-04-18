@@ -3,6 +3,7 @@ import {GoogleMap, MapDirectionsRenderer, MapDirectionsService, MapMarker} from 
 import {PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {BehaviorSubject, map} from "rxjs";
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
+import {InputService} from "../../services/input.service";
 
 @Component({
   selector: 'app-map-display',
@@ -51,6 +52,9 @@ export class MapDisplayComponent implements OnInit, OnChanges
 
   async calculateRoute()
   {
+    this.places = this.places.filter(place => place.address && place.address.trim() !== '');
+
+    console.log(this.places);
     const fromLocation = this.places[0]?.location;
     const toLocation = this.places[this.places.length - 1]?.location;
     const waypoints = this.places.slice(1, -1).map(place => place.location);

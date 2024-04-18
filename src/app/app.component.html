@@ -8,6 +8,7 @@
   <div class="right-buttons">
     <button mat-button routerLink="/login" *ngIf="!isLoggedIn">Login</button>
     <button mat-button routerLink="/register" *ngIf="!isLoggedIn">Register</button>
+    <button mat-button routerLink="/profile" *ngIf="isLoggedIn">{{ username }}</button>
     <button mat-button *ngIf="isLoggedIn" (click)="confirmLogout()">Logout</button>
   </div>
 
