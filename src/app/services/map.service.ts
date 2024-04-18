@@ -58,4 +58,21 @@ export class MapService {
 
     return resultMatrix;
   }
+
+  public parseSelectedTravelMode(selectedTravelMode : string) : google.maps.TravelMode
+  {
+    if (selectedTravelMode === 'DRIVING'){
+      return google.maps.TravelMode.DRIVING;
+    }
+    else if (selectedTravelMode === 'BICYCLING'){
+      return google.maps.TravelMode.BICYCLING;
+    }
+    else if (selectedTravelMode === 'TRANSIT'){
+      return google.maps.TravelMode.TRANSIT;
+    }
+    else if (selectedTravelMode === 'WALKING'){
+      return google.maps.TravelMode.WALKING;
+    }
+    else return google.maps.TravelMode.DRIVING;
+  }
 }

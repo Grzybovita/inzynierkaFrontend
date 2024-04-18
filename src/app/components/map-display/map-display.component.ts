@@ -1,9 +1,14 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {GoogleMap, MapDirectionsRenderer, MapDirectionsService, MapMarker} from "@angular/google-maps";
-import {PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
+import {PlaceAutocompleteComponent, PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {BehaviorSubject, map} from "rxjs";
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
-import {InputService} from "../../services/input.service";
+import {MatButton} from "@angular/material/button";
+import {animate, AUTO_STYLE, state, style, transition, trigger} from "@angular/animations";
+import {MapSettingsCardComponent} from "../map-settings-card/map-settings-card.component";
+import {MapService} from "../../services/map.service";
+
+const DEFAULT_DURATION = 300;
 
 @Component({
   selector: 'app-map-display',
@@ -15,7 +20,18 @@ import {InputService} from "../../services/input.service";
     MapMarker,
     NgIf,
     NgForOf,
-    CommonModule
+    CommonModule,
+    MatButton,
+    PlaceAutocompleteComponent,
+    MapSettingsCardComponent
+  ],
+  animations: [
+    trigger('collapse', [
+      state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
+      state('true', style({ height: '0', visibility: 'hidden' })),
+      transition('false => true', animate(DEFAULT_DURATION + 'ms ease-in')),
+      transition('true => false', animate(DEFAULT_DURATION + 'ms ease-out'))
+    ])
   ],
   styleUrls: ['./map-display.component.css']
 })
@@ -27,15 +43,18 @@ export class MapDisplayComponent implements OnInit, OnChanges
   @Input()
   places: PlaceSearchResult[] = [];
 
+  showSettings: boolean = false;
   markerPositions: google.maps.LatLng[] = [];
-
   zoom = 5;
 
   directionsResult$ = new BehaviorSubject<
     google.maps.DirectionsResult | undefined
   >(undefined);
 
-  constructor(private directionsService: MapDirectionsService) {}
+  selectedTravelMode: google.maps.TravelMode = google.maps.TravelMode.DRIVING;
+
+  constructor(private directionsService: MapDirectionsService,
+              private mapService: MapService) {}
 
   ngOnInit(): void
   {
@@ -52,6 +71,8 @@ export class MapDisplayComponent implements OnInit, OnChanges
 
   async calculateRoute()
   {
+    console.log('WE GOT NEW TRAVEL MODE: ', this.selectedTravelMode.valueOf());
+
     this.places = this.places.filter(place => place.address && place.address.trim() !== '');
 
     console.log(this.places);
@@ -66,7 +87,7 @@ export class MapDisplayComponent implements OnInit, OnChanges
         origin: fromLocation,
         waypoints: waypoints.map(waypoint => ({location: waypoint, stopover: true})),
         /* optimizeWaypoints: true,*/
-        travelMode: google.maps.TravelMode.DRIVING,
+        travelMode: this.selectedTravelMode,
       };
 
       this.directionsService
@@ -89,6 +110,18 @@ export class MapDisplayComponent implements OnInit, OnChanges
     this.map.panTo(location);
     this.zoom = 10;
     this.directionsResult$.next(undefined);
+  }
+
+  toggleSettings()
+  {
+    this.showSettings = !this.showSettings;
+  }
+
+  onSelectedTravelModeChange(selectedTravelMode: string)
+  {
+    this.selectedTravelMode = this.mapService.parseSelectedTravelMode(selectedTravelMode);
+    sessionStorage.setItem('selectedTravelMode', JSON.stringify(this.selectedTravelMode.valueOf()));
+    this.calculateRoute();
   }
 
 }

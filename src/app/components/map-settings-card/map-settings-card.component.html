@@ -1,0 +1,13 @@
+<div class="map-settings-card">
+  <h2>Map Settings</h2>
+
+  <div class="settings-option">
+    Mode of transportation:
+    <mat-radio-group [(ngModel)]="selectedTravelMode" (ngModelChange)="onSelectedVehicleChange()">
+      <mat-radio-button value="DRIVING">Car</mat-radio-button>
+      <mat-radio-button value="BICYCLING">Bicycle</mat-radio-button>
+      <mat-radio-button value="TRANSIT">Public transport</mat-radio-button>
+      <mat-radio-button value="WALKING">Walking</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>

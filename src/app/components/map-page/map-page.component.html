@@ -1,14 +1,12 @@
 <div class="container">
-
-  <div class="input-area">
-    <h2>Travel destinations:</h2>
-    <button mat-raised-button color="primary" (click)="addPlaceAutocomplete()">+</button>
-    <button mat-raised-button color="warn" (click)="removeLastPlaceAutocomplete()" [disabled]="places.length <= 2">-</button>
-    <button mat-raised-button color="primary" (click)="optimizeRoute()" [disabled]="places.length <= 2">optimize</button>
-  </div>
-
   <div class="display-area">
     <div>
+      <div class="input-area">
+        <h2>Travel destinations:</h2>
+        <button mat-raised-button color="primary" (click)="addPlaceAutocomplete()">+</button>
+        <button mat-raised-button color="warn" (click)="removeLastPlaceAutocomplete()" [disabled]="places.length <= 2">-</button>
+        <button mat-raised-button color="primary" (click)="optimizeRoute()" [disabled]="places.length <= 2">optimize</button>
+      </div>
       <ng-container *ngFor="let place of places; let i = index">
         <div> {{i + 1}}.
           <app-place-autocomplete

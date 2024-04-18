@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {PlaceAutocompleteComponent, PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
 import {PlaceCardComponent} from "../place-card/place-card.component";
 import {MapService} from "../../services/map.service";
@@ -15,7 +15,9 @@ import {InputService} from "../../services/input.service";
     NgForOf,
     PlaceAutocompleteComponent,
     PlaceCardComponent,
-    MapDisplayComponent
+    MapDisplayComponent,
+    NgIf,
+    NgClass
   ],
   templateUrl: './map-page.component.html',
   styleUrl: './map-page.component.css'
@@ -31,6 +33,12 @@ export class MapPageComponent implements OnInit {
 
   ngOnInit(): void
   {
+    //get places from sessionStorage so we dont lose data f.e. on page refresh
+    const savedPlaces = sessionStorage.getItem('places');
+    if (savedPlaces)
+    {
+      this.places = JSON.parse(savedPlaces);
+    }
     this.inputService.inputCleared$.subscribe(clearedValueIndex  => {
 
       let emptyPlace : PlaceSearchResult = { address: '' };
@@ -74,11 +82,16 @@ export class MapPageComponent implements OnInit {
     {
       console.error('Error optimizing route:', error);
     }
+
+    //set places in sessionStorage, so we don't lose data when refreshing page in web browser
+    sessionStorage.setItem('places', JSON.stringify(this.places));
   }
 
   onPlaceChanged(place: PlaceSearchResult, index: number)
   {
     this.places = [...this.places.slice(0, index), place, ...this.places.slice(index + 1)];
+    //set places in sessionStorage, so we don't lose data when refreshing page in web browser
+    sessionStorage.setItem('places', JSON.stringify(this.places));
     this.refreshView();
   }
 
