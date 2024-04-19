@@ -21,7 +21,10 @@
     "@angular/platform-browser": "^17.3.2",
     "@angular/platform-browser-dynamic": "^17.3.2",
     "@angular/router": "^17.3.2",
+    "@danielmoncada/angular-datetime-picker": "^17.0.0",
     "@types/googlemaps": "^3.43.3",
+    "owl-ng": "^1.0.0-beta.19",
+    "primeng": "^17.14.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"
