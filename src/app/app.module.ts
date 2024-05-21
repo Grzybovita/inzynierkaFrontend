@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {MapPageComponent} from "./components/map-page/map-page.component";
 import {TokenComponent} from "./components/token/token.component";
 import {httpInterceptorProviders} from "./helpers/http.interceptor";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import {httpInterceptorProviders} from "./helpers/http.interceptor";
     AppRoutingModule,
     MapPageComponent,
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, provideAnimationsAsync()],
   exports: [],
   bootstrap: [AppComponent]
 })
