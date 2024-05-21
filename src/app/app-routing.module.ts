@@ -9,13 +9,13 @@ import {TokenComponent} from "./components/token/token.component";
 import {ProfilePageComponent} from "./components/profile-page/profile-page.component";
 
 const routes: Routes = [
+  { path: '', redirectTo: '/map', pathMatch: 'full' },
   { path: 'map', component: MapPageComponent },
   { path: 'help', component: HelpPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'token/verify', component: TokenComponent },
   { path: 'profile', component: ProfilePageComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({

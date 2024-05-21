@@ -1,19 +1,21 @@
-<div *ngIf="loginForm" class="login-form">
+<div *ngIf="loginForm" class="login-form container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
     <div class="form-group">
       <mat-form-field appearance="outline">
-        <input matInput formControlName="username" placeholder="Username">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username">
         <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</mat-error>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field appearance="outline">
-        <input matInput type="password" formControlName="password" placeholder="Password">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Enter your password">
         <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</mat-error>
         <mat-error *ngIf="loginForm.get('password')?.errors?.['invalidCredentials']">Invalid login credentials</mat-error>
       </mat-form-field>
     </div>
-    <div>
+    <div class="form-actions">
       <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
     </div>
   </form>

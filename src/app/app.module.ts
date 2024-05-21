@@ -13,6 +13,7 @@ import {RouterLink} from "@angular/router";
 import { AppRoutingModule } from './app-routing.module';
 import {MapPageComponent} from "./components/map-page/map-page.component";
 import {TokenComponent} from "./components/token/token.component";
+import {httpInterceptorProviders} from "./helpers/http.interceptor";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import {TokenComponent} from "./components/token/token.component";
     AppRoutingModule,
     MapPageComponent,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   exports: [],
   bootstrap: [AppComponent]
 })

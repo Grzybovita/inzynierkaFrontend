@@ -1,9 +1,9 @@
 {
   "name": "inzynierka-frontend",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -23,6 +23,7 @@
     "@angular/router": "^17.3.2",
     "@danielmoncada/angular-datetime-picker": "^17.0.0",
     "@types/googlemaps": "^3.43.3",
+    "ngx-cookie-service": "^17.1.0",
     "owl-ng": "^1.0.0-beta.19",
     "primeng": "^17.14.1",
     "rxjs": "~7.8.0",

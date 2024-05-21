@@ -1,11 +1,12 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {MatButton} from "@angular/material/button";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {PlaceAutocompleteComponent, PlaceSearchResult} from "../place-autocomplete/place-autocomplete.component";
-import {PlaceCardComponent} from "../place-card/place-card.component";
-import {MapService} from "../../services/map.service";
-import {MapDisplayComponent} from "../map-display/map-display.component";
-import {InputService} from "../../services/input.service";
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatButton } from "@angular/material/button";
+import { NgClass, NgForOf, NgIf } from "@angular/common";
+import { PlaceAutocompleteComponent, PlaceSearchResult } from "../place-autocomplete/place-autocomplete.component";
+import { PlaceCardComponent } from "../place-card/place-card.component";
+import { MapService } from "../../services/map.service";
+import { MapDisplayComponent } from "../map-display/map-display.component";
+import { InputService } from "../../services/input.service";
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map-page',
@@ -17,10 +18,11 @@ import {InputService} from "../../services/input.service";
     PlaceCardComponent,
     MapDisplayComponent,
     NgIf,
-    NgClass
+    NgClass,
+    MatSnackBarModule
   ],
   templateUrl: './map-page.component.html',
-  styleUrl: './map-page.component.css'
+  styleUrls: ['./map-page.component.css'] // Fixed typo styleUrl -> styleUrls
 })
 export class MapPageComponent implements OnInit {
 
@@ -28,7 +30,9 @@ export class MapPageComponent implements OnInit {
 
   constructor(private cdr: ChangeDetectorRef,
               private mapService: MapService,
-              private inputService: InputService) {
+              private inputService: InputService,
+              private snackBar: MatSnackBar)
+  {
   }
 
   ngOnInit(): void
@@ -63,6 +67,8 @@ export class MapPageComponent implements OnInit {
     {
       const addresses = this.places.map(place => place.address);
       const result = await this.mapService.optimizePath(addresses);
+
+      //this.places = this.places.filter((place, index) => result[index]);
       console.log('places::: ');
       console.log(this.places);
 
@@ -77,6 +83,12 @@ export class MapPageComponent implements OnInit {
 
       this.places = newPlaces;
       this.refreshView();
+
+      this.snackBar.open('Path has been optimized', 'Close', {
+        duration: 3000,
+        verticalPosition: 'bottom',
+      });
+
     }
     catch (error)
     {

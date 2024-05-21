@@ -4,6 +4,7 @@ import {StorageService} from "./services/storage.service";
 import {AuthService} from "./services/auth.service";
 import {EventBusService} from "./_shared/event-bus.service";
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,8 @@ export class AppComponent {
     private storageService: StorageService,
     private authService: AuthService,
     private eventBusService: EventBusService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void
@@ -56,9 +58,17 @@ export class AppComponent {
         this.storageService.clean();
         this.isLoggedIn = this.storageService.isLoggedIn();
         this.router.navigate(['/login']);
+        this.snackBar.open('Successfully logged out!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+        });
       },
       error: err => {
         console.log(err);
+        this.snackBar.open('Unknown error when tried to log out!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+        });
       }
     });
   }

@@ -1,35 +1,44 @@
-<div *ngIf="registrationForm" class="registration-form">
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit(registrationForm)">
-  <div>
-  <mat-form-field appearance="outline">
-    <input matInput formControlName="email" placeholder="Email">
-    <mat-error *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</mat-error>
-    <mat-error *ngIf="registrationForm.get('email')?.errors?.['email']">Wrong email format</mat-error>
-    <mat-error *ngIf="registrationForm.get('email')?.errors?.['emailTaken']">This email is not available</mat-error>
-  </mat-form-field>
-  </div>
-  <div>
-  <mat-form-field appearance="outline">
-    <input matInput formControlName="username" placeholder="Username">
-    <mat-error *ngIf="registrationForm.get('username')?.errors?.['required']">Username is required</mat-error>
-    <mat-error *ngIf="registrationForm.get('username')?.errors?.['usernameTaken']">This username is not available</mat-error>
-  </mat-form-field>
-  </div>
-  <div>
-  <mat-form-field appearance="outline">
-    <input matInput type="password" formControlName="password" placeholder="Password">
-    <mat-error *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</mat-error>
-  </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <input matInput type="password" formControlName="repeatPassword" placeholder="Repeat password">
-      <mat-error *ngIf="registrationForm.get('repeatPassword')?.errors?.['required']">Password is required</mat-error>
-      <mat-error *ngIf="registrationForm.errors?.['passwordMismatch']">Passwords do not match</mat-error>
-    </mat-form-field>
-  </div>
-  <div>
-  <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Register</button>
-  </div>
-</form>
+<div *ngIf="registrationForm" class="registration-form container">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit(registrationForm)">
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email">
+        <mat-error *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</mat-error>
+        <mat-error *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email format</mat-error>
+        <mat-error *ngIf="registrationForm.get('email')?.errors?.['emailTaken']">This email is not available</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username">
+        <mat-error *ngIf="registrationForm.get('username')?.errors?.['required']">Username is required</mat-error>
+        <mat-error *ngIf="registrationForm.get('username')?.errors?.['usernameTaken']">This username is not available</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Enter your password">
+        <mat-error *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</mat-error>
+        <mat-error *ngIf="registrationForm.get('password')?.hasError('minlength')">Password must be at least 8 characters long</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Repeat Password</mat-label>
+        <input matInput type="password" formControlName="repeatPassword" placeholder="Repeat your password">
+        <mat-error *ngIf="registrationForm.get('repeatPassword')?.errors?.['required']">Repeat Password is required</mat-error>
+        <mat-error *ngIf="registrationForm.errors?.['passwordMismatch']">Passwords do not match</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Register</button>
+    </div>
+  </form>
 </div>
