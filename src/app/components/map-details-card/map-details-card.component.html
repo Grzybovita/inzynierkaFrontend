@@ -3,10 +3,10 @@
 
   <div class="settings-option">
     <div>
-      Total distance: {{ totalDistance }} meters (This is {{ totalDistance / 1000 }} kilometers)
+      Total distance: {{ totalDistance }} meters (This is {{ (totalDistance / 1000) | number:'1.1-1' }} kilometers)
     </div>
     <div>
-      Total time: {{ totalTime }} seconds (This is {{ totalTime / 3600 }} hours)
+      Total time: {{ totalTime }} seconds (This is {{ (totalTime / 3600) | number:'1.1-1' }} hours)
     </div>
     <div>
       Travel start time: {{ startTime }}

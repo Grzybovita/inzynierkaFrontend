@@ -7,6 +7,7 @@ import { MapService } from "../../services/map.service";
 import { MapDisplayComponent } from "../map-display/map-display.component";
 import { InputService } from "../../services/input.service";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @Component({
   selector: 'app-map-page',
@@ -19,7 +20,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MapDisplayComponent,
     NgIf,
     NgClass,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ScrollingModule
   ],
   templateUrl: './map-page.component.html',
   styleUrls: ['./map-page.component.css'] // Fixed typo styleUrl -> styleUrls

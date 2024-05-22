@@ -1,24 +1,27 @@
 .input-area {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   align-items: center;
 }
 
 .display-area {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   align-items: flex-start;
   height: calc(100vh - 180px);
 
   > div {
     width: 30%;
-    overflow: auto;
     padding: 8px;
     height: inherit;
+    display: flex;
+    flex-direction: column;
+  }
 
-    > * {
-      margin-bottom: 16px;
-    }
+  .scrollable-content {
+    overflow-y: auto;
+    flex-grow: 1;
+    margin-top: 16px;
   }
 
   > app-map-display {

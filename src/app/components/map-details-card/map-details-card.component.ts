@@ -3,15 +3,17 @@ import {MatCard} from "@angular/material/card";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {Subscription} from "rxjs";
 import {MapDisplayComponent} from "../map-display/map-display.component";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-map-details-card',
   standalone: true,
-    imports: [
-        MatCard,
-        MatRadioButton,
-        MatRadioGroup
-    ],
+  imports: [
+    MatCard,
+    MatRadioButton,
+    MatRadioGroup,
+    DecimalPipe
+  ],
   templateUrl: './map-details-card.component.html',
   styleUrl: './map-details-card.component.css'
 })
