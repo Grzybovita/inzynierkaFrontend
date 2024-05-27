@@ -6,7 +6,7 @@
       Total distance: {{ totalDistance }} meters (This is {{ (totalDistance / 1000) | number:'1.1-1' }} kilometers)
     </div>
     <div>
-      Total time: {{ totalTime }} seconds (This is {{ (totalTime / 3600) | number:'1.1-1' }} hours)
+      Total time: {{ (totalTime / 60) | number:'1.0-0' }} minutes (This is {{ (totalTime / 3600) | number:'1.1-1' }} hours)
     </div>
     <div>
       Travel start time: {{ startTime }}

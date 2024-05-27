@@ -1,3 +1,8 @@
+<div class="container">
+  <div class="logo-container">
+    <img [src]="'assets/RouteMaster_LOGO.png'" alt="RouteMaster logo">
+  </div>
+
 <div *ngIf="registrationForm" class="registration-form container">
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit(registrationForm)">
     <div class="form-group">
@@ -41,4 +46,5 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Register</button>
     </div>
   </form>
+</div>
 </div>

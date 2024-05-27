@@ -1,22 +1,28 @@
-<div *ngIf="loginForm" class="login-form container">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
-    <div class="form-group">
-      <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username" placeholder="Enter your username">
-        <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" placeholder="Enter your password">
-        <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</mat-error>
-        <mat-error *ngIf="loginForm.get('password')?.errors?.['invalidCredentials']">Invalid login credentials</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="form-actions">
-      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-    </div>
-  </form>
+<div class="container">
+  <div class="logo-container">
+    <img [src]="'assets/RouteMaster_LOGO.png'" alt="RouteMaster logo">
+  </div>
+
+  <div *ngIf="loginForm" class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" placeholder="Enter your username">
+          <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">Username is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Enter your password">
+          <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</mat-error>
+          <mat-error *ngIf="loginForm.get('password')?.errors?.['invalidCredentials']">Invalid login credentials</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+      </div>
+    </form>
+  </div>
 </div>

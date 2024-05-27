@@ -2,6 +2,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  padding: 15px;
 }
 
 .display-area {
@@ -40,4 +41,18 @@
 
 app-place-autocomplete {
   width: 300px;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
+  justify-content: flex-start; /* Align content to the top */
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.logo-container img {
+  width: 200px;
+  height: auto;
 }

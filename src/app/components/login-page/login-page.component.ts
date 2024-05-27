@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButton } from "@angular/material/button";
 import { MatError, MatFormField } from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import { NgIf } from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 import { UserService } from "../../services/user.service";
 import { StorageService } from "../../services/storage.service";
 import { Router } from "@angular/router";
@@ -22,6 +22,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     NgIf,
     MatSnackBarModule,
     MatInputModule,
+    NgOptimizedImage,
   ],
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
