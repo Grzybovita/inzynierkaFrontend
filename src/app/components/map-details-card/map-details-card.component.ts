@@ -4,6 +4,7 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {Subscription} from "rxjs";
 import {MapDisplayComponent} from "../map-display/map-display.component";
 import {DecimalPipe} from "@angular/common";
+import {TimeFormatPipe} from "../../time-format.pipe";
 
 @Component({
   selector: 'app-map-details-card',
@@ -12,7 +13,8 @@ import {DecimalPipe} from "@angular/common";
     MatCard,
     MatRadioButton,
     MatRadioGroup,
-    DecimalPipe
+    DecimalPipe,
+    TimeFormatPipe
   ],
   templateUrl: './map-details-card.component.html',
   styleUrl: './map-details-card.component.css'

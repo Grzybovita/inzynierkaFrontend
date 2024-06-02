@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import { MatButton } from "@angular/material/button";
 import { NgClass, NgForOf, NgIf } from "@angular/common";
 import { PlaceAutocompleteComponent, PlaceSearchResult } from "../place-autocomplete/place-autocomplete.component";
@@ -28,7 +28,10 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 })
 export class MapPageComponent implements OnInit {
 
-  places: PlaceSearchResult[] = [{ address: '' }, { address: '' }];
+  places: PlaceSearchResult[] = [{ address: '' }, { address: '' }, { address: '' }];
+
+  @ViewChild(MapDisplayComponent)
+  private mapDisplayComponent!: MapDisplayComponent;
 
   constructor(private cdr: ChangeDetectorRef,
               private mapService: MapService,
@@ -54,13 +57,26 @@ export class MapPageComponent implements OnInit {
 
   addPlaceAutocomplete()
   {
-    this.places.push({ address: '' });
+    if (this.places.length > 1)
+    {
+      this.places.splice(this.places.length - 1, 0, { address: '' });
+    }
+    else
+    {
+      this.places.push({ address: '' });
+    }
+    this.updateSessionAndView();
   }
 
   removeLastPlaceAutocomplete()
   {
-    this.places = this.places.slice(0, -1);
-    this.refreshView();
+    if (this.places.length > 1)
+    {
+      this.places.splice(this.places.length - 2, 1);
+      this.updateSessionAndView();
+      this.mapDisplayComponent.calculateRoute();
+    }
+
   }
 
   async optimizeRoute()
@@ -78,6 +94,11 @@ export class MapPageComponent implements OnInit {
       for (let i = 0; i < result.length - 1; i++)
       {
         newPlaces.push(this.places[result[i]]);
+      }
+
+      if (newPlaces[0].address !== newPlaces[newPlaces.length - 1].address)
+      {
+        newPlaces.push(newPlaces[0]);
       }
 
       console.log('newPlaces::: ');
@@ -104,6 +125,16 @@ export class MapPageComponent implements OnInit {
   onPlaceChanged(place: PlaceSearchResult, index: number)
   {
     this.places = [...this.places.slice(0, index), place, ...this.places.slice(index + 1)];
+    // Ensure the last place is always the same as the first place
+    if (this.places.length > 1)
+    {
+      this.places[this.places.length - 1] = { ...this.places[0] };
+    }
+    this.updateSessionAndView();
+  }
+
+  updateSessionAndView()
+  {
     //set places in sessionStorage, so we don't lose data when refreshing page in web browser
     sessionStorage.setItem('places', JSON.stringify(this.places));
     this.refreshView();
@@ -111,7 +142,7 @@ export class MapPageComponent implements OnInit {
 
   refreshView()
   {
-    this.cdr.detectChanges(); // Manually trigger change detection
+    this.cdr.detectChanges();
   }
 
 }

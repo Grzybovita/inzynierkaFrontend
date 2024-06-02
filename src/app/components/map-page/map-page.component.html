@@ -12,20 +12,34 @@
           <button mat-raised-button color="primary" (click)="optimizeRoute()" [disabled]="places.length <= 2">Optimize</button>
         </div>
 
-          <ng-container *ngFor="let place of places; let i = index">
-            <div> {{i + 1}}.
-              <app-place-autocomplete
-                (placeChanged)="onPlaceChanged($event, i)"
-                [place]="places[i]"
-                [placeholder]="'Enter address ' + (i + 1) + '...'"
-                [index]="i"
-              ></app-place-autocomplete>
-            </div>
-         </ng-container>
-        </div>
-      </div>
+        <ng-container *ngFor="let place of places; let i = index">
+          <div *ngIf="i < places.length - 1; else endLabel">
+            {{ i + 1 }}.
+            <app-place-autocomplete
+              (placeChanged)="onPlaceChanged($event, i)"
+              [place]="places[i]"
+              [placeholder]="'Enter address ' + (i + 1) + '...'"
+              [index]="i"
+            ></app-place-autocomplete>
+          </div>
+        </ng-container>
 
-    <app-map-display [places]="places"></app-map-display>
+        <ng-template #endLabel>
+          <div>
+            {{ places.length }}.
+            <app-place-autocomplete
+              (placeChanged)="onPlaceChanged($event, places.length)"
+              [place]="places[0]"
+              [placeholder]="'Enter address ' + (places.length) + '...'"
+              [index]="places.length"
+              [readOnly]="true"
+            ></app-place-autocomplete>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <app-map-display #mapDisplay [places]="places"></app-map-display>
 
   </div>
 </div>

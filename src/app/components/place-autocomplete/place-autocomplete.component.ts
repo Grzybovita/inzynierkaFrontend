@@ -50,6 +50,9 @@ export class PlaceAutocompleteComponent implements AfterViewInit
   @Output()
   inputCleared = new EventEmitter<void>();
 
+  @Input()
+  readOnly = false;
+
   autocomplete: google.maps.places.Autocomplete | undefined;
 
   constructor(private ngZone: NgZone,
@@ -59,7 +62,9 @@ export class PlaceAutocompleteComponent implements AfterViewInit
 
   ngAfterViewInit(): void
   {
-    this.initAutocomplete();
+    if (!this.readOnly) {
+      this.initAutocomplete();
+    }
   }
 
   initAutocomplete()

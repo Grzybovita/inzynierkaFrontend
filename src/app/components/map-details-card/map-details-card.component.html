@@ -3,13 +3,10 @@
 
   <div class="settings-option">
     <div>
-      Total distance: {{ totalDistance }} meters (This is {{ (totalDistance / 1000) | number:'1.1-1' }} kilometers)
+      <h3>Total distance: {{ (totalDistance / 1000) | number:'1.1-1' }}km</h3>
     </div>
     <div>
-      Total time: {{ (totalTime / 60) | number:'1.0-0' }} minutes (This is {{ (totalTime / 3600) | number:'1.1-1' }} hours)
-    </div>
-    <div>
-      Travel start time: {{ startTime }}
+      <h3>Total time: {{ totalTime | timeFormat }}</h3>
     </div>
   </div>
 </mat-card>

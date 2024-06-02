@@ -3,7 +3,7 @@
 
   <div class="settings-option">
     <div>
-      Mode of transportation:
+      <h3>Mode of transportation:
       <mat-radio-group
         [(ngModel)]="selectedTravelMode"
         (ngModelChange)="onSelectedTravelModeChange()">
@@ -11,17 +11,17 @@
         <mat-radio-button value="BICYCLING">Bicycle</mat-radio-button>
         <mat-radio-button value="TRANSIT">Public transport</mat-radio-button>
         <mat-radio-button value="WALKING">Walking</mat-radio-button>
-      </mat-radio-group>
+      </mat-radio-group></h3>
     </div>
     <div>
-      Travel start time:
+      <h3>Travel start time:
       <p-calendar
         [(ngModel)]="date"
         (onClose)="onSelectedDepartureTimeChange()"
         [minDate]="minDate"
         [maxDate]="maxDate"
         [showTime]="true"
-        [readonlyInput]="true"></p-calendar>
+        [readonlyInput]="true"></p-calendar></h3>
     </div>
   </div>
 </mat-card>

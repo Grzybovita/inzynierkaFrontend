@@ -73,7 +73,11 @@ export class MapDisplayComponent implements OnInit, OnChanges {
   calculateRoute() {
     this.updateSettingsFromSessionStorage();
     this.validateAndSetDepartureTime();
-
+    const savedPlaces = sessionStorage.getItem('places');
+    if (savedPlaces)
+    {
+      this.places = JSON.parse(savedPlaces);
+    }
     this.places = this.places.filter(place => place.address && place.address.trim() !== '');
 
     const fromLocation = this.places[0]?.location;

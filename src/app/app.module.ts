@@ -15,6 +15,7 @@ import {MapPageComponent} from "./components/map-page/map-page.component";
 import {TokenComponent} from "./components/token/token.component";
 import {httpInterceptorProviders} from "./helpers/http.interceptor";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {TimeFormatPipe} from "./time-format.pipe";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     RouterLink,
     AppRoutingModule,
     MapPageComponent,
+    TimeFormatPipe,
   ],
   providers: [httpInterceptorProviders, provideAnimationsAsync()],
   exports: [],

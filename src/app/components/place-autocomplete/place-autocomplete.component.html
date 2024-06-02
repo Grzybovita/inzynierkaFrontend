@@ -1,8 +1,6 @@
 <mat-form-field appearance="outline">
-    <input #inputField matInput [value]="getValue(place)" [placeholder]="placeholder"/>
-
-  <button mat-icon-button matSuffix aria-label="Clear" (click)="clearInput()">
+  <input #inputField matInput [value]="getValue(place)" [placeholder]="placeholder" [disabled]="readOnly"/>
+  <button mat-icon-button matSuffix aria-label="Clear" (click)="clearInput()" *ngIf="!readOnly">
     <mat-icon>delete</mat-icon>
   </button>
-
 </mat-form-field>

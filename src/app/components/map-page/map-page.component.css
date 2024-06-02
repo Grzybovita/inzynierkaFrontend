@@ -56,3 +56,7 @@ app-place-autocomplete {
   width: 200px;
   height: auto;
 }
+
+.space-after {
+  margin-right: 5px; /* Adjust this value as needed */
+}
